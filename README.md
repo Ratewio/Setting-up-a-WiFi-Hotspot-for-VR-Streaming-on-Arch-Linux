@@ -6,7 +6,21 @@
 
 uncomment US
 
-`echo 1 | sudo tee /proc/sys/net/ipv4/ip_forward`
+Firewalld:
+`sudo firewall-cmd --zone=nm-shared --add-interface=wlp4s0 --permanent
+sudo firewall-cmd --zone=nm-shared --add-service=dhcp --permanent
+sudo firewall-cmd --zone=nm-shared --add-service=dns --permanent`
+
+UFW:
+`sudo ufw allow in on wlp4s0 to any port 67 proto udp1
+sudo ufw allow in on wlp4s0 to any port 53 proto udp`
+
+`sudo sysctl net.ipv4.ip_forward=1`
+
+
+`sudo iptables -t nat -A POSTROUTING -o Ваш_Интернет_Интерфейс -j MASQUERADE
+sudo iptables -A FORWARD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+sudo iptables -A FORWARD -i wlp4s0 -o Ваш_Интернет_Интерфейс -j ACCEPT`
 
 `nmcli connection add type wifi ifname wlp4s0 con-name MyHotspot \
   802-11-wireless.ssid "APNAME" \
