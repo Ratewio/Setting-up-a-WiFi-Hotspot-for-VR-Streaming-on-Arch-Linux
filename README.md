@@ -22,15 +22,14 @@ sudo ufw allow in on wlp4s0 to any port 53 proto udp`
 sudo iptables -A FORWARD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
 sudo iptables -A FORWARD -i wlp4s0 -o Ваш_Интернет_Интерфейс -j ACCEPT`
 
-`nmcli connection add type wifi ifname wlp4s0 con-name MyHotspot \
-  802-11-wireless.ssid "APNAME" \
+`nmcli connection add type wifi ifname wlp4s0 con-name hotspot-5g ssid "archlinux" \
   802-11-wireless.mode ap \
   802-11-wireless.band a \
   802-11-wireless.channel 149 \
   802-11-wireless.channel-width 80 \
   802-11-wireless.powersave 2 \
-  wifi-sec.key-mgmt wpa-psk \
-  wifi-sec.psk "PASSWORD" \
   ipv4.method shared \
-  ipv4.addresses 192.168.200.1/24`
+  ipv4.addresses 10.42.0.1/24 \
+  wifi-sec.key-mgmt wpa-psk \
+  wifi-sec.psk "meowmeow"`
   
